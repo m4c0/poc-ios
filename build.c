@@ -31,9 +31,24 @@ static int run(char ** args) {
   return 1;
 }
 
+static int validate() {
+  char * api_key = getenv("IOS_API_KEY");
+  assert(api_key && "Missing IOS_API_KEY environment variable");
+  char * api_issuer = getenv("IOS_API_ISSUER");
+  assert(api_issuer && "Missing IOS_API_ISSUER environment variable");
+
+  char * args[] = {
+    "xcrun", "altool", "--validate-app", "-t", "iphoneos",
+    "-f", "main.ipa",
+    "--apiKey", strdup(api_key),
+    "--apiIssuer", strdup(api_issuer),
+    0 };
+  return run(args);
+}
+
 static int cc(char * src, char * exe) {
   char * args[] = {
-    "clang", "-Wall", "-g", "-target", TARGET, "-isysroot", SDK_PATH,
+    "clang", "-Wall", "-O3", "-target", TARGET, "-isysroot", SDK_PATH,
     "-framework", "UIKit",
     "-o", exe, src, 0 };
   return run(args);
@@ -43,6 +58,8 @@ int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
   if (cc("main.m", "main")) return 1;
+
+  if (validate()) return 1;
 
   return 0;
 }
