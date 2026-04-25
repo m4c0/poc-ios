@@ -15,7 +15,7 @@
     <key>provisioningProfiles</key>
     <dict>
       <key>com.github.m4c0.poc-ios</key>
-      <string>uuid</string>
+      <string>&IOS_PROV_PROF;</string>
     </dict>
   </dict>
 </plist>
