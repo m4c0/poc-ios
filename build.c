@@ -132,6 +132,7 @@ int main(int argc, char ** argv) {
   if (cc("main.m", "export.xcarchive/Products/Applications/main.app/main")) return 1;
 
   if (apply("export.plist.in", "export.plist")) return 1;
+  if (apply("xcarchive.plist.in", "export.xcarchive/Info.plist")) return 1;
 
   if (export())   return 1;
   if (validate()) return 1;

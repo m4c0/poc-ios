@@ -15,11 +15,11 @@
       <key>CFBundleShortVersionString</key>
       <string>1.0.0</string>
       <key>CFBundleVersion</key>
-      <string>1777059965</string>
+      <string>1</string>
       <key>SigningIdentity</key>
-      <string>signing</string>
+      <string>&IOS_SIGN_ID;</string>
       <key>Team</key>
-      <string>team</string>
+      <string>&IOS_TEAM;</string>
     </dict>
     <key>ArchiveVersion</key>
     <integer>2</integer>
