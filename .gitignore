@@ -1,3 +1,4 @@
 *.dSYM
 build
+export.plist
 export.xcarchive

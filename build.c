@@ -14,6 +14,23 @@ static void usage() {
   fprintf(stderr, "just call 'build' without arguments\n");
 }
 
+static char * slurp(const char * file) {
+  FILE * f = fopen(file, "rb");
+  assert(f);
+
+  assert(0 == fseek(f, 0, SEEK_END));
+  long sz = ftell(f);
+  assert(sz);
+  assert(0 == fseek(f, 0, SEEK_SET));
+
+  char * data = malloc(sz + 1);
+  assert(1 == fread(data, sz, 1, f));
+  data[sz] = 0;
+
+  fclose(f);
+  return data;
+}
+
 static int run(char ** args) {
   assert(args && args[0]);
 
@@ -29,6 +46,46 @@ static int run(char ** args) {
 
   fprintf(stderr, "failed to run child process: %s\n", args[0]);
   return 1;
+}
+
+static int apply(char * src, char * tgt) {
+  char * file = slurp(src);
+
+  FILE * f = fopen(tgt, "wb");
+  assert(f);
+
+  char * p = file;
+  while (*p) {
+    p = strchr(file, '&');
+    if (!p) break;
+
+    assert(1 == fwrite(file, p-file, 1, f));
+    file = ++p;
+
+    char * pp = strchr(p, ';');
+    if (!pp) {
+      assert(0 == fputc('&', f));
+      file++;
+      continue;
+    }
+    *pp = 0;
+
+    char * env = getenv(p);
+    if (strncmp(p, "IOS_", 4)) {
+      assert(fprintf(f, "&%s;", file));
+      file = ++pp;
+    } else if (env) {
+      assert(fprintf(f, "%s", env));
+      file = ++pp;
+    } else {
+      fprintf(stderr, "Missing environment: %s\n", p);
+      exit(1);
+    }
+  }
+
+  assert(fprintf(f, "%s", file));
+  fclose(f);
+  return 0;
 }
 
 static int export() {
@@ -67,7 +124,14 @@ static int cc(char * src, char * exe) {
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
+  // mkdir("export.xcarchive", 0777);
+  // mkdir("export.xcarchive/Products", 0777);
+  // mkdir("export.xcarchive/Products/Applications", 0777);
+  // mkdir("export.xcarchive/Products/Applications/main.app", 0777);
+
   if (cc("main.m", "export.xcarchive/Products/Applications/main.app/main")) return 1;
+
+  if (apply("export.plist.in", "export.plist")) return 1;
 
   if (export())   return 1;
   if (validate()) return 1;
