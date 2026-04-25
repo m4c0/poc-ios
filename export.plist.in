@@ -5,7 +5,7 @@
     <key>method</key>
     <string>debugging</string>
     <key>teamID</key>
-    <string>team</string>
+    <string>&IOS_TEAM;</string>
     <key>thinning</key>
     <string>&lt;none&gt;</string>
     <key>uploadSymbols</key>
