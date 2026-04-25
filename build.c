@@ -106,7 +106,7 @@ static int validate() {
 
   char * args[] = {
     "xcrun", "altool", "--validate-app", "-t", "iphoneos",
-    "-f", "main.ipa",
+    "-f", "export/main.ipa",
     "--apiKey", strdup(api_key),
     "--apiIssuer", strdup(api_issuer),
     0 };
@@ -124,15 +124,16 @@ static int cc(char * src, char * exe) {
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
-  // mkdir("export.xcarchive", 0777);
-  // mkdir("export.xcarchive/Products", 0777);
-  // mkdir("export.xcarchive/Products/Applications", 0777);
-  // mkdir("export.xcarchive/Products/Applications/main.app", 0777);
+  mkdir("export.xcarchive", 0777);
+  mkdir("export.xcarchive/Products", 0777);
+  mkdir("export.xcarchive/Products/Applications", 0777);
+  mkdir("export.xcarchive/Products/Applications/main.app", 0777);
 
   if (cc("main.m", "export.xcarchive/Products/Applications/main.app/main")) return 1;
 
   if (apply("export.plist.in", "export.plist")) return 1;
   if (apply("xcarchive.plist.in", "export.xcarchive/Info.plist")) return 1;
+  if (apply("app.plist.in", "export.xcarchive/Products/Applications/main.app/Info.plist")) return 1;
 
   if (export())   return 1;
   if (validate()) return 1;
