@@ -1,5 +1,3 @@
-*
-!*.*
-
-*.swp
-
+*.dSYM
+build
+main.app/main

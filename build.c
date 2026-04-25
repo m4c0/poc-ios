@@ -57,7 +57,7 @@ static int cc(char * src, char * exe) {
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
-  if (cc("main.m", "main")) return 1;
+  if (cc("main.m", "main.app/main")) return 1;
 
   if (validate()) return 1;
 
