@@ -31,6 +31,16 @@ static int run(char ** args) {
   return 1;
 }
 
+static int export() {
+  char * args[] = {
+    "xcodebuild", "-exportArchive",
+    "-archivePath", "export.xcarchive",
+    "-exportPath", "export",
+    "-exportOptionsPlist", "export.plist",
+    0 };
+  return run(args);
+}
+
 static int validate() {
   char * api_key = getenv("IOS_API_KEY");
   assert(api_key && "Missing IOS_API_KEY environment variable");
@@ -57,8 +67,9 @@ static int cc(char * src, char * exe) {
 int main(int argc, char ** argv) {
   if (argc != 1) return (usage(), 1);
 
-  if (cc("main.m", "main.app/main")) return 1;
+  if (cc("main.m", "export.xcarchive/Products/Applications/main.app/main")) return 1;
 
+  if (export())   return 1;
   if (validate()) return 1;
 
   return 0;
