@@ -14,7 +14,7 @@
     <true/>
     <key>provisioningProfiles</key>
     <dict>
-      <key>com.github.m4c0.poc-ios</key>
+      <key>&IOS_BUNDLE_ID;</key>
       <string>&IOS_PROV_PROF;</string>
     </dict>
   </dict>

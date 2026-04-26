@@ -28,7 +28,7 @@
     <string>xcode_version</string>
 
     <key>CFBundleIdentifier</key>
-    <string>com.github.m4c0.main</string>
+    <string>&IOS_BUNDLE_ID;</string>
     <key>CFBundleDisplayName</key>
     <string>Main</string>
     <key>CFBundleShortVersionString</key>

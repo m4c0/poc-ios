@@ -5,13 +5,13 @@
     <key>ApplicationProperties</key>
     <dict>
       <key>ApplicationPath</key>
-      <string>Applications/poc.app</string>
+      <string>Applications/main.app</string>
       <key>Architectures</key>
       <array>
         <string>arm64</string>
       </array>
       <key>CFBundleIdentifier</key>
-      <string>com.github.m4c0.poc-ios</string>
+      <string>&IOS_BUNDLE_ID;</string>
       <key>CFBundleShortVersionString</key>
       <string>1.0.0</string>
       <key>CFBundleVersion</key>
