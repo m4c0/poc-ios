@@ -18,6 +18,7 @@ Environment variables:
 * `IOS_SIGN_ID` - Name of the signing certificate. Something like `Apple
   Distribution: <developer-name> (<team-id>)`
 * `IOS_PROV_PROF` - Provisioning profile name (or UUID).
+* `IOS_DEVICE` - Device name to install the app (optional)
 
 In order to get the "validation" step pass, you need the App ID created in the
 "App Store Connect".

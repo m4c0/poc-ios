@@ -109,6 +109,19 @@ static int export() {
   return run(args);
 }
 
+static int install() {
+  char * device = getenv("IOS_DEVICE");
+  if (!device) {
+    fprintf(stderr, "Missing IOS_DEVICE - skipping install\n");
+    return 0;
+  }
+
+  char * args[] = {
+    "xcrun", "devicectl", "device", "install", "app", "--device", device, "export/main.ipa", 0
+  };
+  return run(args);
+}
+
 static int validate() {
   char * api_key = getenv("IOS_API_KEY");
   assert(api_key && "Missing IOS_API_KEY environment variable");
@@ -148,6 +161,7 @@ int main(int argc, char ** argv) {
 
   if (codesign()) return 1;
   if (export())   return 1;
+  if (install())  return 1;
   if (validate()) return 1;
 
   return 0;
