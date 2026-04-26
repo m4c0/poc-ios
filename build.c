@@ -88,6 +88,17 @@ static int apply(char * src, char * tgt) {
   return 0;
 }
 
+static int codesign() {
+  char * team = getenv("IOS_TEAM");
+  assert(team && "Missing IOS_TEAM environment variable");
+
+  char * args[] = {
+    "codesign", "-s", strdup(team),
+    "export.xcarchive/Products/Applications/main.app",
+    0 };
+  return run(args);
+}
+
 static int export() {
   char * args[] = {
     "xcodebuild", "-exportArchive",
@@ -135,6 +146,7 @@ int main(int argc, char ** argv) {
   if (apply("xcarchive.plist.in", "export.xcarchive/Info.plist")) return 1;
   if (apply("app.plist.in", "export.xcarchive/Products/Applications/main.app/Info.plist")) return 1;
 
+  if (codesign()) return 1;
   if (export())   return 1;
   if (validate()) return 1;
 
