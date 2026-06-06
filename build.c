@@ -7,8 +7,8 @@
 #include <unistd.h>
 
 // You can get this path with 'xcrun --show-sdk-path --sdk iphoneos'
-#define SDK_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.5.sdk"
-#define TARGET "arm64-apple-ios17.0"
+#define SDK_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk"
+#define TARGET "arm64-apple-ios26.5"
 
 static void usage() {
   fprintf(stderr, "just call 'build' without arguments\n");
