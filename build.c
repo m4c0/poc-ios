@@ -140,6 +140,7 @@ static int validate() {
 static int cc(char * src, char * exe) {
   char * args[] = {
     "clang", "-Wall", "-O3", "-target", TARGET, "-isysroot", SDK_PATH,
+    "-framework", "CoreFoundation",
     "-framework", "UIKit",
     "-o", exe, src, 0 };
   return run(args);
