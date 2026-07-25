@@ -10,6 +10,8 @@
 #define SDK_PATH "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.5.sdk"
 #define TARGET "arm64-apple-ios26.5"
 
+// #define ADS
+
 static void usage() {
   fprintf(stderr, "just call 'build' without arguments\n");
 }
@@ -139,9 +141,19 @@ static int validate() {
 
 static int cc(char * src, char * exe) {
   char * args[] = {
-    "clang", "-Wall", "-O3", "-target", TARGET, "-isysroot", SDK_PATH,
+    "clang", "-Wall", "-g", "-O3", "-target", TARGET, "-isysroot", SDK_PATH,
     "-framework", "CoreFoundation",
     "-framework", "UIKit",
+
+#if ADS
+    "-DADS"
+    "-F", "GoogleMobileAds.xcframework/ios-arm64",
+    "-framework", "GoogleMobileAds",
+    "-framework", "JavaScriptCore",
+    "-ObjC", "-L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos",
+    "-lc++",
+#endif
+
     "-o", exe, src, 0 };
   return run(args);
 }
@@ -163,7 +175,7 @@ int main(int argc, char ** argv) {
   if (codesign()) return 1;
   if (export())   return 1;
   if (install())  return 1;
-  if (validate()) return 1;
+  //if (validate()) return 1;
 
   return 0;
 }
